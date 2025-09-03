@@ -55,6 +55,9 @@ jobs:
         EOF
     
     - name: Generate EPUB and send to Kindle
+      env:
+        # RSS配置 - 使用Repository Variable或Secret
+        CONFIG_YAML: ${{ vars.CONFIG_YAML || secrets.CONFIG_YAML }}
       run: |
         python rss_and_send.py
     

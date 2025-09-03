@@ -1,5 +1,7 @@
 import feedparser
 import yaml
+import os
+import json
 from datetime import datetime, timedelta
 from ebooklib import epub
 import re
@@ -14,10 +16,41 @@ from readability import Document
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def load_config():
-    """读取 config.yaml 配置"""
-    with open('config.yaml', 'r', encoding='utf-8') as f:
-        config = yaml.safe_load(f)
-    return config
+    """读取配置（优先从环境变量，其次从文件）"""
+    
+    # 优先从环境变量读取完整配置（支持GitHub Variables）
+    env_config = os.environ.get('CONFIG_YAML') or os.environ.get('RSS_CONFIG')
+    if env_config:
+        try:
+            # 尝试作为YAML解析
+            config = yaml.safe_load(env_config)
+            print("✅ 使用环境变量配置（YAML格式）")
+            return config
+        except yaml.YAMLError:
+            try:
+                # 尝试作为JSON解析
+                config = json.loads(env_config)
+                print("✅ 使用环境变量配置（JSON格式）")
+                return config
+            except json.JSONDecodeError:
+                print("⚠️ 环境变量配置格式错误，尝试使用文件配置")
+    
+    # 从文件读取配置
+    config_file = os.environ.get('CONFIG_FILE', 'config.yaml')
+    if os.path.exists(config_file):
+        with open(config_file, 'r', encoding='utf-8') as f:
+            config = yaml.safe_load(f)
+        print(f"✅ 使用配置文件: {config_file}")
+        return config
+    
+    # 使用示例配置
+    if os.path.exists('config.example.yaml'):
+        with open('config.example.yaml', 'r', encoding='utf-8') as f:
+            config = yaml.safe_load(f)
+        print("⚠️ 使用示例配置文件")
+        return config
+    
+    raise FileNotFoundError("未找到配置文件或环境变量")
 
 def fetch_feed(url):
     """拉取 RSS feed"""

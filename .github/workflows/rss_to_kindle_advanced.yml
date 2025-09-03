@@ -62,6 +62,9 @@ jobs:
         echo "month=$(date +'%Y-%m')" >> $GITHUB_OUTPUT
     
     - name: Generate EPUB
+      env:
+        # RSS配置 - 使用Repository Variable或Secret
+        CONFIG_YAML: ${{ vars.CONFIG_YAML || secrets.CONFIG_YAML }}
       run: |
         python main.py
         echo "Generated EPUB files:"

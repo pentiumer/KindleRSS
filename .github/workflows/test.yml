@@ -24,7 +24,17 @@ jobs:
         pip install -r requirements.txt
     
     - name: Test RSS to EPUB conversion
+      env:
+        CONFIG_YAML: |
+          Settings:
+            max_history: 1
+            load_images: false
+          
+          Feeds:
+            - url: "https://sspai.com/feed"
+              name: "Test Feed"
+              title: "Test RSS"
+              enabled: true
       run: |
-        cp config.example.yaml config.yaml
         python main.py
         ls -lh rss_feed_*.epub

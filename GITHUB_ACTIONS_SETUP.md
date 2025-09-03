@@ -15,14 +15,45 @@
 - `.github/workflows/rss_to_kindle.yml` - GitHub Actions 工作流
 - `requirements.txt` - Python 依赖
 
-### 2. 配置 GitHub Secrets
+### 2. 配置 GitHub Secrets 和 Variables
 
-在你的 GitHub 仓库中设置以下 Secrets：
+#### 配置方式一：使用 Repository Variables（推荐）
+
+在你的 GitHub 仓库中设置 Variables：
 
 1. 进入仓库页面
 2. 点击 `Settings` → `Secrets and variables` → `Actions`
-3. 点击 `New repository secret`
-4. 添加以下 Secrets：
+3. 选择 `Variables` 标签
+4. 点击 `New repository variable`
+5. 添加 `CONFIG_YAML` 变量，内容为完整的 config.yaml 配置
+
+**CONFIG_YAML 示例内容：**
+```yaml
+Settings:
+  max_history: 7
+  load_images: true
+
+Feeds:
+  - url: "https://sspai.com/feed"
+    name: "少数派"
+    title: "少数派精选"
+    enabled: true
+    resolve_link:
+      enabled: true
+      method: "readability"
+```
+
+#### 配置方式二：使用 Secrets（用于私密RSS源）
+
+如果你的RSS源包含私密信息，使用 Secrets：
+
+1. 选择 `Secrets` 标签
+2. 点击 `New repository secret`
+3. 添加 `CONFIG_YAML` Secret，内容同上
+
+#### 邮件配置 Secrets
+
+添加以下 Secrets 用于邮件发送：
 
 | Secret 名称 | 说明 | 示例值 |
 |------------|------|--------|

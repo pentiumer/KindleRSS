@@ -54,9 +54,14 @@ python rss_and_send.py
 
 1. **Fork本仓库**
 
-2. **配置GitHub Secrets**
+2. **配置GitHub Variables/Secrets**
    
-   在仓库设置中添加以下Secrets：
+   在仓库设置中配置：
+   
+   **RSS配置** (Variables或Secrets)：
+   - `CONFIG_YAML` - 完整的config.yaml内容
+   
+   **邮件配置** (Secrets)：
    - `SMTP_SERVER` - SMTP服务器地址
    - `SMTP_PORT` - SMTP端口
    - `SENDER_EMAIL` - 发件人邮箱
