@@ -326,7 +326,7 @@ def convert_to_epub(feeds, load_images=True, feeds_config=None, custom_filename=
     book.set_identifier(f'rss-compilation-{current_date.strftime("%Y%m%d%H%M%S")}')
     book.set_title('RSS 推送')
     book.set_language('zh')
-    book.add_author('RSS Feed Reader')
+    book.add_author('KindleRSS')
     book.add_metadata('DC', 'description', '精心整理的 RSS 订阅内容合集')
     book.add_metadata('DC', 'date', current_date.strftime('%Y-%m-%d'))
     
