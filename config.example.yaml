@@ -1,0 +1,33 @@
+Settings:
+  max_history: 7  # 最多保留最近7天的文章
+  load_images: true  # 是否加载图片
+
+Feeds:
+  # 示例1: 使用CSS选择器提取内容
+  - url: "https://sspai.com/feed"
+    name: "少数派"
+    title: "少数派精选"
+    enabled: true
+    resolve_link:
+      enabled: true
+      method: "selector"  # 优先使用选择器
+      selectors:
+        content: "article, .post-content, .article-content, main"  # 内容选择器
+        remove: ".ads, .comments, .related-posts, script, style"  # 要移除的元素
+      fallback: "readability"  # 选择器失败时使用readability
+
+  # 示例2: 直接使用readability自动提取
+  - url: "https://feeds.feedburner.com/ruanyifeng"
+    name: "阮一峰"
+    title: "阮一峰的网络日志"
+    enabled: true
+    resolve_link:
+      enabled: true
+      method: "readability"  # 直接使用readability
+
+  # 示例3: 不解析原始链接，使用RSS摘要
+  - url: "https://www.v2ex.com/index.xml"
+    name: "V2EX"
+    title: "V2EX热门"
+    enabled: true
+    # 没有resolve_link配置，使用默认RSS内容

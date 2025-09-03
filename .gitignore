@@ -1,0 +1,39 @@
+# Configuration files with credentials
+email_config.yaml
+config.yaml
+
+# Generated files
+*.epub
+*.log
+cron_log.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Backup files
+*.bak
+*_backup.*
+*.orig
+
+# Claude AI
+.claude/

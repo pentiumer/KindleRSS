@@ -1,0 +1,38 @@
+# 邮件配置示例
+# 请复制此文件为 email_config.yaml 并填写实际信息
+
+# SMTP服务器设置
+smtp_server: "smtp.gmail.com"  # SMTP服务器地址
+smtp_port: 587  # 587 for STARTTLS, 465 for SSL
+
+# 发件人信息
+sender_email: "your_email@gmail.com"  # 你的邮箱地址
+sender_password: "your_app_password"   # 邮箱密码或应用专用密码
+
+# Kindle接收邮箱
+kindle_email: "your_kindle@kindle.com"  # 你的Kindle邮箱地址
+
+# 邮件主题和正文（可选）
+subject: "RSS Feed"  # 邮件主题
+body: "您订阅的RSS内容"  # 邮件正文
+
+# ====== 常见邮箱SMTP设置参考 ======
+# 
+# Gmail:
+#   smtp_server: smtp.gmail.com
+#   smtp_port: 587
+#   注意：需要开启两步验证并使用应用专用密码
+#
+# QQ邮箱:
+#   smtp_server: smtp.qq.com
+#   smtp_port: 587
+#   注意：需要使用授权码而非QQ密码
+#
+# 163邮箱:
+#   smtp_server: smtp.163.com
+#   smtp_port: 465
+#   注意：需要使用授权码
+#
+# Outlook:
+#   smtp_server: smtp-mail.outlook.com
+#   smtp_port: 587
