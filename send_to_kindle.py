@@ -91,12 +91,20 @@ def send_to_kindle(epub_file, config):
         
         # 添加EPUB附件
         with open(epub_file, 'rb') as f:
-            attachment = MIMEBase('application', 'epub+zip')
+            # 使用正确的MIME类型
+            attachment = MIMEBase('application', 'octet-stream')
             attachment.set_payload(f.read())
             encoders.encode_base64(attachment)
+            
+            # 确保文件名正确编码
+            filename = os.path.basename(epub_file)
+            # 添加Content-Type头，明确指定文件类型
+            attachment.add_header('Content-Type', 'application/epub+zip', name=filename)
+            # 使用filename参数而不是简单的字符串格式化
             attachment.add_header(
                 'Content-Disposition',
-                f'attachment; filename={os.path.basename(epub_file)}'
+                'attachment',
+                filename=filename
             )
             msg.attach(attachment)
         
