@@ -1,4 +1,4 @@
-# KindleRSSAction-public
+# KindleRSS
 
 将RSS订阅转换为EPUB电子书，并自动发送到Kindle设备。支持全文提取、图片嵌入、GitHub Actions自动化推送。
 
@@ -17,8 +17,8 @@
 
 1. **克隆仓库**
 ```bash
-git clone https://github.com/yourusername/rss-to-epub.git
-cd rss-to-epub
+git clone https://github.com/ZRui-C/KindleRSS.git
+cd KindleRSS
 ```
 
 2. **安装依赖**
@@ -194,4 +194,4 @@ MIT License
 
 ---
 
-如有问题或建议，请提交[Issue](https://github.com/yourusername/rss-to-epub/issues)。
+如有问题或建议，请提交[Issue](https://github.com/ZRui-C/KindleRSS/issues)。

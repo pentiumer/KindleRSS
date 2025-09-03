@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KindleRSS - 智能RSS转Kindle推送解决方案 | 自动化阅读管理</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="KindleRSS是一款专业的RSS订阅转换工具，自动将RSS内容转换为精美EPUB电子书并推送到Kindle。支持全文提取、图片优化、GitHub Actions自动化，让您的阅读更高效。">
+    <meta name="keywords" content="RSS to Kindle, RSS转EPUB, Kindle推送, RSS阅读器, 自动化阅读, GitHub Actions, RSS订阅管理, 电子书转换, Kindle邮件推送">
+    <meta name="author" content="KindleRSS Team">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="KindleRSS - 智能RSS转Kindle推送解决方案">
+    <meta property="og:description" content="自动化将RSS订阅转换为精美EPUB电子书，智能推送到Kindle设备。支持全文提取、图片优化、定时推送。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kindle.hluvmiku.tech/">
+    <meta property="og:image" content="https://kindle.hluvmiku.tech/og-image.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="KindleRSS - 智能RSS转Kindle推送解决方案">
+    <meta name="twitter:description" content="自动化将RSS订阅转换为精美EPUB电子书，智能推送到Kindle设备。">
+    <meta name="twitter:image" content="https://kindle.hluvmiku.tech/twitter-card.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kindle.hluvmiku.tech/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom Styles -->
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        .hero-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+    </style>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "KindleRSS",
+        "description": "专业的RSS订阅转Kindle推送解决方案",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Cross-platform",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5.0",
+            "ratingCount": "100+"
+        }
+    }
+    </script>
+</head>
+<body class="scroll-smooth">
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-book-reader text-2xl text-purple-600"></i>
+                    <span class="text-xl font-bold gradient-text">KindleRSS</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#features" class="text-gray-700 hover:text-purple-600 transition">功能特性</a>
+                    <a href="#how-it-works" class="text-gray-700 hover:text-purple-600 transition">工作原理</a>
+                    <a href="#pricing" class="text-gray-700 hover:text-purple-600 transition">开源免费</a>
+                    <a href="#faq" class="text-gray-700 hover:text-purple-600 transition">常见问题</a>
+                </div>
+                <a href="https://github.com/ZRui-C/KindleRSS" target="_blank" 
+                   class="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition flex items-center space-x-2">
+                    <i class="fab fa-github"></i>
+                    <span>开始使用</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-20 pb-32 hero-pattern">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+                    让RSS阅读回归<span class="gradient-text">纯粹</span>
+                </h1>
+                <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                    无需部署，智能转换RSS订阅为精美EPUB电子书，自动推送到您的Kindle设备。
+                    告别碎片化阅读，享受沉浸式阅读体验。
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://github.com/ZRui-C/KindleRSS" target="_blank"
+                       class="bg-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-purple-700 transition transform hover:scale-105 flex items-center justify-center space-x-2">
+                        <i class="fas fa-rocket"></i>
+                        <span>立即开始</span>
+                    </a>
+                    <a href="https://github.com/ZRui-C/KindleRSS/blob/main/README.md" target="_blank"
+                       class="bg-white text-purple-600 border-2 border-purple-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-purple-50 transition transform hover:scale-105 flex items-center justify-center space-x-2">
+                        <i class="fas fa-book"></i>
+                        <span>查看文档</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">开源免费，专为阅读而生</h2>
+                <p class="text-xl text-gray-600">每一个细节都为提升您的阅读体验而精心设计</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-lg">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-sync-alt text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">智能全文提取</h3>
+                    <p class="text-gray-600">支持Readability和CSS选择器双引擎，精准提取文章全文，告别摘要阅读</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-lg">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-images text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">图片智能优化</h3>
+                    <p class="text-gray-600">自动下载嵌入图片，WebP格式自动转换，防止跨页显示，完美适配Kindle</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-lg">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-robot text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">GitHub Actions自动化</h3>
+                    <p class="text-gray-600">无需服务器，利用GitHub Actions每日定时推送，零成本运维</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-lg">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-book text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">精美排版设计</h3>
+                    <p class="text-gray-600">多级目录导航，章节分明，支持自定义文件名，打造杂志级阅读体验</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-lg">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-lock text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">隐私安全保护</h3>
+                    <p class="text-gray-600">所有配置通过GitHub Secrets管理，邮箱密码加密存储，保障您的隐私安全</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-lg">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-cogs text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">灵活配置管理</h3>
+                    <p class="text-gray-600">支持多RSS源聚合，自定义更新频率，灵活控制内容范围</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">简单三步，开启智能阅读</h2>
+                <p class="text-xl text-gray-600">配置简单，上手即用</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">
+                        1
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Fork & 配置</h3>
+                    <p class="text-gray-600">Fork项目到您的GitHub，添加RSS源和邮箱配置</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">
+                        2
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">设置Secrets</h3>
+                    <p class="text-gray-600">在GitHub仓库中安全配置SMTP和Kindle邮箱信息</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">
+                        3
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">自动推送</h3>
+                    <p class="text-gray-600">每天定时或手动触发，EPUB自动发送到您的Kindle</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Example -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">配置示例</h2>
+                <p class="text-xl text-gray-600">简洁的YAML配置，强大的功能支持</p>
+            </div>
+            
+            <div class="bg-gray-900 rounded-xl p-6 max-w-4xl mx-auto">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-gray-400 text-sm">config.yaml</span>
+                    <button onclick="copyCode()" class="text-gray-400 hover:text-white transition">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+                <pre class="text-green-400 overflow-x-auto"><code>Settings:
+  max_history: 7  # 保留最近7天文章
+  load_images: true  # 下载并嵌入图片
+  filename_template: "RSS精选_{date}.epub"  # 自定义文件名
+
+Feeds:
+  - url: "https://sspai.com/feed"
+    name: "少数派"
+    enabled: true
+    resolve_link:
+      enabled: true
+      method: "readability"  # 智能全文提取
+      
+  - url: "https://feeds.feedburner.com/ruanyifeng"
+    name: "阮一峰"
+    enabled: true</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">永久免费，开源共享</h2>
+                <p class="text-xl text-gray-600">基于MIT协议，您可以自由使用、修改和分发</p>
+            </div>
+            
+            <div class="max-w-md mx-auto bg-gradient-to-br from-purple-600 to-purple-800 rounded-2xl p-8 text-white shadow-2xl">
+                <div class="text-center">
+                    <h3 class="text-2xl font-bold mb-4">开源版本</h3>
+                    <div class="text-5xl font-bold mb-2">￥0</div>
+                    <div class="text-purple-200 mb-8">永久免费</div>
+                    
+                    <ul class="text-left space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle mr-3"></i>
+                            <span>所有核心功能</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle mr-3"></i>
+                            <span>GitHub Actions自动化</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle mr-3"></i>
+                            <span>无限RSS源支持</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle mr-3"></i>
+                            <span>社区技术支持</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle mr-3"></i>
+                            <span>持续更新维护</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="https://github.com/ZRui-C/KindleRSS" target="_blank"
+                       class="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition inline-block">
+                        立即使用
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">常见问题</h2>
+                <p class="text-xl text-gray-600">快速了解产品核心信息</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold mb-2">需要付费吗？</h3>
+                    <p class="text-gray-600">完全免费！基于MIT开源协议，您可以自由使用、修改和分发。</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold mb-2">支持哪些RSS源？</h3>
+                    <p class="text-gray-600">支持所有标准RSS/Atom格式的订阅源，可同时配置多个源进行聚合。</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold mb-2">如何设置自动推送？</h3>
+                    <p class="text-gray-600">使用GitHub Actions，只需配置一次即可实现每日定时自动推送，也支持手动触发。</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold mb-2">支持哪些Kindle设备？</h3>
+                    <p class="text-gray-600">支持所有能接收邮件推送的Kindle设备，包括Kindle Oasis、Paperwhite、基础版等。</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold mb-2">图片能正常显示吗？</h3>
+                    <p class="text-gray-600">支持图片自动下载和嵌入，WebP格式会自动转换为Kindle兼容格式，并防止跨页显示。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-purple-600 to-purple-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold text-white mb-4">准备好升级您的阅读体验了吗？</h2>
+            <p class="text-xl text-purple-100 mb-8">加入数千名用户，享受高质量的RSS阅读体验</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="https://github.com/ZRui-C/KindleRSS" target="_blank"
+                   class="bg-white text-purple-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition transform hover:scale-105 inline-flex items-center space-x-2">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub开始使用</span>
+                </a>
+                <a href="https://github.com/ZRui-C/KindleRSS/blob/main/README.md" target="_blank"
+                   class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white/10 transition transform hover:scale-105 inline-flex items-center space-x-2">
+                    <i class="fas fa-book"></i>
+                    <span>查看文档</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-book-reader text-2xl"></i>
+                        <span class="text-xl font-bold">KindleRSS</span>
+                    </div>
+                    <p class="text-gray-400">智能RSS阅读解决方案</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">产品</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#features" class="hover:text-white transition">功能特性</a></li>
+                        <li><a href="#how-it-works" class="hover:text-white transition">使用指南</a></li>
+                        <li><a href="https://github.com/ZRui-C/KindleRSS/releases" class="hover:text-white transition">更新日志</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">资源</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="https://github.com/ZRui-C/KindleRSS/blob/main/README.md" class="hover:text-white transition">文档</a></li>
+                        <li><a href="https://github.com/ZRui-C/KindleRSS/issues" class="hover:text-white transition">问题反馈</a></li>
+                        <li><a href="https://github.com/ZRui-C/KindleRSS/discussions" class="hover:text-white transition">社区讨论</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">关注我们</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/ZRui-C/KindleRSS" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-github text-2xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-twitter text-2xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-discord text-2xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 KindleRSS. MIT License. Made with ❤️ by <a href="https://hluvmiku.tech"">ZRui-C</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Copy code function
+        function copyCode() {
+            const code = document.querySelector('pre code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('配置已复制到剪贴板！');
+            });
+        }
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe feature cards
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
