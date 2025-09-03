@@ -1,6 +1,18 @@
 Settings:
   max_history: 7  # 最多保留最近7天的文章
   load_images: true  # 是否加载图片
+  filename_template: "RSS订阅_{date}.epub"  # 自定义文件名模板
+  # 可用占位符:
+  # {year} - 年份 (2025)
+  # {month} - 月份 (07)
+  # {day} - 日期 (04)
+  # {hour} - 小时 (14)
+  # {minute} - 分钟 (30)
+  # {second} - 秒 (45)
+  # {date} - 中文日期 (2025年7月4日)
+  # {time} - 中文时间 (14时30分)
+  # {datetime} - 中文日期时间 (2025年7月4日_14时30分)
+  # 示例: "RSS精选_{date}.epub" → "RSS精选_2025年7月4日.epub"
 
 Feeds:
   # 示例1: 使用CSS选择器提取内容

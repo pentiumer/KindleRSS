@@ -11,6 +11,8 @@ from urllib.parse import urlparse
 import urllib3
 from bs4 import BeautifulSoup
 from readability import Document
+from PIL import Image
+import io
 
 # 禁用 SSL 警告
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -150,7 +152,7 @@ def extract_images_from_html(html_content):
     return re.findall(img_pattern, html_content, re.IGNORECASE)
 
 def download_image_as_base64(url, timeout=10):
-    """下载图片并转换为 base64"""
+    """下载图片并转换为 base64，WebP格式自动转换为JPEG"""
     try:
         # 更完整的请求头，模拟真实浏览器
         headers = {
@@ -175,16 +177,41 @@ def download_image_as_base64(url, timeout=10):
             # 获取图片类型
             content_type = response.headers.get('content-type', 'image/jpeg')
             if 'image' in content_type or len(response.content) > 100:  # 确保有内容
-                # 转换为 base64
-                img_base64 = base64.b64encode(response.content).decode('utf-8')
+                # 检查是否为WebP格式
+                is_webp = 'webp' in content_type.lower() or url.lower().endswith('.webp')
+                
+                if is_webp:
+                    try:
+                        # 将WebP转换为JPEG
+                        img = Image.open(io.BytesIO(response.content))
+                        # 如果是RGBA模式，转换为RGB
+                        if img.mode == 'RGBA':
+                            # 创建白色背景
+                            background = Image.new('RGB', img.size, (255, 255, 255))
+                            background.paste(img, mask=img.split()[3])  # 使用alpha通道作为mask
+                            img = background
+                        elif img.mode != 'RGB':
+                            img = img.convert('RGB')
+                        
+                        # 转换为JPEG
+                        output = io.BytesIO()
+                        img.save(output, format='JPEG', quality=85)
+                        img_data = output.getvalue()
+                        img_base64 = base64.b64encode(img_data).decode('utf-8')
+                        content_type = 'image/jpeg'
+                    except Exception:
+                        # 如果转换失败，使用原始数据
+                        img_base64 = base64.b64encode(response.content).decode('utf-8')
+                else:
+                    # 非WebP格式，直接使用
+                    img_base64 = base64.b64encode(response.content).decode('utf-8')
+                
                 # 如果没有明确的 content-type，尝试从 URL 推断
                 if 'image' not in content_type:
                     if '.png' in url.lower():
                         content_type = 'image/png'
                     elif '.gif' in url.lower():
                         content_type = 'image/gif'
-                    elif '.webp' in url.lower():
-                        content_type = 'image/webp'
                     else:
                         content_type = 'image/jpeg'
                 return f"data:{content_type};base64,{img_base64}"
@@ -225,7 +252,7 @@ def process_content_images(content, load_images=True):
     return content
 
 def download_and_add_image(book, url, img_id):
-    """下载图片并添加到 EPUB 书籍中"""
+    """下载图片并添加到 EPUB 书籍中，WebP格式自动转换为JPEG"""
     try:
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -238,15 +265,40 @@ def download_and_add_image(book, url, img_id):
         if response.status_code == 200 and len(response.content) > 100:
             # 确定图片类型
             content_type = response.headers.get('content-type', '')
-            if 'png' in content_type or '.png' in url.lower():
+            img_content = response.content
+            
+            # 检查是否为WebP格式
+            is_webp = 'webp' in content_type.lower() or url.lower().endswith('.webp')
+            
+            if is_webp:
+                try:
+                    # 将WebP转换为JPEG
+                    img = Image.open(io.BytesIO(response.content))
+                    # 如果是RGBA模式，转换为RGB
+                    if img.mode == 'RGBA':
+                        # 创建白色背景
+                        background = Image.new('RGB', img.size, (255, 255, 255))
+                        background.paste(img, mask=img.split()[3])  # 使用alpha通道作为mask
+                        img = background
+                    elif img.mode != 'RGB':
+                        img = img.convert('RGB')
+                    
+                    # 转换为JPEG
+                    output = io.BytesIO()
+                    img.save(output, format='JPEG', quality=85)
+                    img_content = output.getvalue()
+                    ext = 'jpg'
+                    media_type = 'image/jpeg'
+                except Exception:
+                    # 如果转换失败，仍然使用原始WebP
+                    ext = 'webp'
+                    media_type = 'image/webp'
+            elif 'png' in content_type or '.png' in url.lower():
                 ext = 'png'
                 media_type = 'image/png'
             elif 'gif' in content_type or '.gif' in url.lower():
                 ext = 'gif'
                 media_type = 'image/gif'
-            elif 'webp' in content_type or '.webp' in url.lower():
-                ext = 'webp'
-                media_type = 'image/webp'
             else:
                 ext = 'jpg'
                 media_type = 'image/jpeg'
@@ -257,7 +309,7 @@ def download_and_add_image(book, url, img_id):
             img_item.uid = f'image_{img_id}'
             img_item.file_name = f'images/{img_name}'
             img_item.media_type = media_type
-            img_item.content = response.content
+            img_item.content = img_content
             
             book.add_item(img_item)
             return f'images/{img_name}'
@@ -265,17 +317,18 @@ def download_and_add_image(book, url, img_id):
         pass
     return None
 
-def convert_to_epub(feeds, load_images=True, feeds_config=None):
+def convert_to_epub(feeds, load_images=True, feeds_config=None, custom_filename=None):
     """将 RSS feed 转换为精美的 EPUB 电子书"""
     book = epub.EpubBook()
     
     # 设置书籍元数据
-    book.set_identifier(f'rss-compilation-{datetime.now().strftime("%Y%m%d%H%M%S")}')
+    current_date = datetime.now()
+    book.set_identifier(f'rss-compilation-{current_date.strftime("%Y%m%d%H%M%S")}')
     book.set_title('RSS 推送')
     book.set_language('zh')
     book.add_author('RSS Feed Reader')
     book.add_metadata('DC', 'description', '精心整理的 RSS 订阅内容合集')
-    book.add_metadata('DC', 'date', datetime.now().strftime('%Y-%m-%d'))
+    book.add_metadata('DC', 'date', current_date.strftime('%Y-%m-%d'))
     
     # 创建自定义主目录页 (Primary TOC)
     main_toc_page = epub.EpubHtml(title='目录', file_name='main_toc.xhtml', lang='zh')
@@ -669,8 +722,31 @@ def convert_to_epub(feeds, load_images=True, feeds_config=None):
     book.add_item(epub.EpubNav())
     
     # 生成文件名
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    filename = f'rss_feed_{timestamp}.epub'
+    if custom_filename:
+        # 使用自定义文件名，替换日期占位符
+        current_date = datetime.now()
+        replacements = {
+            '{year}': str(current_date.year),
+            '{month}': f'{current_date.month:02d}',
+            '{day}': f'{current_date.day:02d}',
+            '{hour}': f'{current_date.hour:02d}',
+            '{minute}': f'{current_date.minute:02d}',
+            '{second}': f'{current_date.second:02d}',
+            '{date}': f'{current_date.year}年{current_date.month}月{current_date.day}日',
+            '{time}': f'{current_date.hour:02d}时{current_date.minute:02d}分',
+            '{datetime}': f'{current_date.year}年{current_date.month}月{current_date.day}日_{current_date.hour:02d}时{current_date.minute:02d}分'
+        }
+        filename = custom_filename
+        for placeholder, value in replacements.items():
+            filename = filename.replace(placeholder, value)
+        
+        # 确保文件扩展名为.epub
+        if not filename.endswith('.epub'):
+            filename += '.epub'
+    else:
+        # 默认文件名格式
+        timestamp = current_date.strftime('%Y%m%d_%H%M%S')
+        filename = f'rss_feed_{timestamp}.epub'
     
     # 输出 EPUB
     epub.write_epub(filename, book, {})
@@ -695,7 +771,9 @@ def main():
             # 保存feed配置
             feeds_config[feed_title] = feed
 
-    convert_to_epub(all_feeds, config['Settings'].get('load_images', True), feeds_config)
+    # 获取自定义文件名（如果配置中有）
+    custom_filename = config.get('Settings', {}).get('filename_template')
+    convert_to_epub(all_feeds, config['Settings'].get('load_images', True), feeds_config, custom_filename)
 
 if __name__ == "__main__":
     main()
