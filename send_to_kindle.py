@@ -57,7 +57,8 @@ def load_email_config():
 
 def get_latest_epub():
     """获取最新生成的EPUB文件"""
-    epub_files = glob.glob('rss_feed_*.epub')
+    # 查找所有的EPUB文件（支持多种命名格式）
+    epub_files = glob.glob('*.epub')
     if not epub_files:
         print("❌ 没有找到EPUB文件")
         return None
