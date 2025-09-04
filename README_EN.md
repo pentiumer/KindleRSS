@@ -11,6 +11,7 @@ Convert RSS feeds to EPUB e-books and automatically send them to your Kindle dev
 - 📧 **Kindle Push** - Auto-send to Kindle email
 - 🤖 **GitHub Actions** - Fully automated scheduled generation and delivery
 - 📖 **Smart Navigation** - Multi-level table of contents for easy reading navigation
+- 🔄 **OPML Converter** - Online tool to convert OPML files to project configuration format
 
 ## 🚀 Quick Start
 
@@ -79,6 +80,15 @@ python rss_and_send.py
    - Or trigger manually: Actions → RSS to Kindle → Run workflow
 
 See [GITHUB_ACTIONS_SETUP.md](GITHUB_ACTIONS_SETUP.md) for detailed setup
+
+## 🔄 OPML Converter
+
+Visit the [Online OPML Converter](https://kindle.hluvmiku.tech/en/converter.html) to easily convert OPML files to config.yaml format:
+
+1. Export OPML file from your RSS reader
+2. Upload to the converter page
+3. Automatically generate config.yaml configuration
+4. Copy or download the configuration file with one click
 
 ## 📝 Configuration
 

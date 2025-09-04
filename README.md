@@ -12,6 +12,7 @@
 - 📧 **Kindle推送** - 自动发送到Kindle邮箱
 - 🤖 **GitHub Actions** - 全自动定时生成和推送
 - 📖 **智能导航** - 多级目录结构，方便阅读导航
+- 🔄 **OPML转换器** - 在线工具可将OPML文件转换为项目配置格式
 
 ## 🚀 快速开始
 
@@ -80,6 +81,15 @@ python rss_and_send.py
    - 或手动触发：Actions → RSS to Kindle → Run workflow
 
 详细设置见 [GITHUB_ACTIONS_SETUP.md](GITHUB_ACTIONS_SETUP.md)
+
+## 🔄 OPML转换器
+
+访问 [在线OPML转换器](https://kindle.hluvmiku.tech/converter.html) 可以轻松将OPML文件转换为config.yaml格式：
+
+1. 从RSS阅读器导出OPML文件
+2. 上传到转换器页面
+3. 自动生成config.yaml配置
+4. 一键复制或下载配置文件
 
 ## 📝 配置说明
 
