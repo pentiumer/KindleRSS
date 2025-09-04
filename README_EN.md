@@ -1,5 +1,5 @@
 # KindleRSS
-[![Static Badge](https://img.shields.io/badge/Readme-中文-blue)](README_EN.md)
+[![Static Badge](https://img.shields.io/badge/Readme-中文-blue)](README.md)
 
 Convert RSS feeds to EPUB e-books and automatically send them to your Kindle device. Supports full-text extraction, image embedding, and GitHub Actions automation.
 
