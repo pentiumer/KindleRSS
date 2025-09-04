@@ -1,4 +1,6 @@
 # KindleRSS
+[![Static Badge](https://img.shields.io/badge/Readme-EN-blue)](README_EN.md)
+
 
 将RSS订阅转换为EPUB电子书，并自动发送到Kindle设备。支持全文提取、图片嵌入、GitHub Actions自动化推送。
 
