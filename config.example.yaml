@@ -1,7 +1,7 @@
 Settings:
   max_history: 7  # 最多保留最近7天的文章
   load_images: true  # 是否加载图片
-  filename_template: "RSS订阅_{date}.epub"  # 自定义文件名模板
+  filename_template: "生活{date}.epub"  # 自定义文件名模板
   # 可用占位符:
   # {year} - 年份 (2025)
   # {month} - 月份 (07)
@@ -29,17 +29,43 @@ Feeds:
       fallback: "readability"  # 选择器失败时使用readability
 
   # 示例2: 直接使用readability自动提取
-  - url: "https://feeds.feedburner.com/ruanyifeng"
-    name: "阮一峰"
-    title: "阮一峰的网络日志"
+  - url: "https://rsshub.app/cma/channel/380"
+    name: "中国气象局"
+    title: "每日天气提示"
     enabled: true
     resolve_link:
       enabled: true
       method: "readability"  # 直接使用readability
 
   # 示例3: 不解析原始链接，使用RSS摘要
-  - url: "https://www.v2ex.com/index.xml"
-    name: "V2EX"
-    title: "V2EX热门"
+  - url: "https://rsshub.app/ifanr/index"
+    name: "爱范儿"
+    title: "爱范儿"
     enabled: true
-    # 没有resolve_link配置，使用默认RSS内容
+    resolve_link:
+      enabled: true
+      method: "readability" 
+
+-url: "https://rsshub.app/chsi/kydt"
+    name: "中国研究生招生信息网"
+    title: "考研动态"
+    enabled: true
+    resolve_link:
+      enabled: true
+      method: "readability"  
+
+-url: "https://rsshub.app/neea/local/ntce"
+    name: "中国教育考试网"
+    title: "教资考试动态"
+    enabled: true
+    resolve_link:
+      enabled: true
+      method: "readability"  
+
+-url: "https://rsshub.app/bjnews/cat/depth"
+    name: "新京报"
+    title: "文化"
+    enabled: true
+    resolve_link:
+      enabled: true
+      method: "readability"  
